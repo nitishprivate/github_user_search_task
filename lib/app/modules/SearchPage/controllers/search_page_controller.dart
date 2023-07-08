@@ -5,6 +5,7 @@ import 'package:github_search_task/app/data/api_connector.dart';
 import 'package:github_search_task/app/data/api_factory.dart';
 
 import '../../../provider/de_bounce_tfs.dart';
+import '../../../routes/app_pages.dart';
 import '../../model/user_model.dart';
 
 class SearchPageController extends GetxController {
@@ -60,10 +61,7 @@ class SearchPageController extends GetxController {
   }
 
   showApiFailDialog(String msg) {
-    Get.defaultDialog(
-      title: "API Fail",
-      content: Text(msg.toString()),
-    );
+    Get.defaultDialog(title: "API Fail", content: Text(msg.toString()), textCancel: "Ok");
   }
 
   @override
@@ -74,7 +72,12 @@ class SearchPageController extends GetxController {
   }
 
   handleOnItemTap(int index) {
+    Get.toNamed(Routes.USER_DETAIL, arguments: list[index]);
     Get.find<LocalDbController>().addUserInList(list[index]);
+  }
+
+  handleRecentTap(int index) {
+    Get.toNamed(Routes.USER_DETAIL, arguments: Get.find<LocalDbController>().userModelList[index]);
   }
 
   void handleRecentSearchItemTap(int index) {

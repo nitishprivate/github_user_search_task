@@ -20,58 +20,46 @@ class HomePageView extends GetView<HomePageController> {
           )
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Obx(() {
-            return Visibility(
-              visible: controller.isLoading.value,
-              child: const LinearProgressIndicator(
-                color: Colors.green,
-                backgroundColor: Colors.red,
-                minHeight: 3,
-              ),
-            );
-          }),
-          Expanded(
-            child: Obx(
-              () {
-                return ListView.builder(
-                  itemCount: controller.list.length,
-                  itemBuilder: (context, index) {
-                    return UserCard(
-                      controller.list[index].avatarUrl ?? "",
-                      controller.list[index].login ?? "",
-                      () {},
+      body: Obx(() {
+        return Visibility(
+          visible: !controller.hasError.value,
+          replacement: Center(
+            child: ElevatedButton(onPressed: controller.reTry, child: const Text("Retry")),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Obx(() {
+                return Visibility(
+                  visible: controller.isLoading.value,
+                  child: const LinearProgressIndicator(
+                    color: Colors.green,
+                    backgroundColor: Colors.red,
+                    minHeight: 3,
+                  ),
+                );
+              }),
+              Expanded(
+                child: Obx(
+                  () {
+                    return ListView.builder(
+                      itemCount: controller.list.length,
+                      itemBuilder: (context, index) {
+                        return UserCard(
+                          controller.list[index].avatarUrl ?? "",
+                          controller.list[index].login ?? "",
+                          () => controller.cardTap(index),
+                        );
+                      },
                     );
                   },
-                );
-              },
-            ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-      // body: Obx(() {
-      //   return Center(
-      //     child: Visibility(
-      //       visible: controller.isLoading,
-      //       replacement: Visibility(
-      //         visible: controller.list.isEmpty,
-      //         replacement: ListView.builder(
-      //           itemCount: controller.list.length,
-      //           itemBuilder: (context, index) {
-      //             return ListTile(
-      //               title: Text(controller.list[index].login ?? ""),
-      //             );
-      //           },
-      //         ),
-      //         child: const Text("No Recent Search Here..."),
-      //       ),
-      //       child: const CircularProgressIndicator(),
-      //     ),
-      //   );
-      // }),
+        );
+      }),
     );
   }
 }

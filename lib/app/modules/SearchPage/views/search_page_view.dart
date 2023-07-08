@@ -66,7 +66,9 @@ class SearchPageView extends GetView<SearchPageController> {
                       return UserCard(
                         Get.find<LocalDbController>().userModelList[index].avatarUrl ?? "",
                         Get.find<LocalDbController>().userModelList[index].login ?? "",
-                        () => controller.handleRecentSearchItemTap(index),
+                        () => controller.handleRecentTap(index),
+                        fromSearch: true,
+                        onRecentSearchTap: () => controller.handleRecentSearchItemTap(index),
                       );
                     }
                   },

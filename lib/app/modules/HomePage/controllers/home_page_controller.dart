@@ -16,6 +16,10 @@ class HomePageController extends GetxController {
     getUsers();
   }
 
+  cardTap(int index) {
+    Get.toNamed(Routes.USER_DETAIL, arguments: list[index]);
+  }
+
   getUsers() {
     Get.find<ApiConnector>().getMethodCall(
       url: ApiFactory.getUsers,
@@ -50,6 +54,7 @@ class HomePageController extends GetxController {
     Get.defaultDialog(
       title: "API Fail",
       content: Text(msg.toString()),
+      textCancel: "ok",
     );
   }
 }

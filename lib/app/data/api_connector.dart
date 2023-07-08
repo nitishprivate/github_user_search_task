@@ -20,6 +20,8 @@ class ApiConnector extends GetxController {
       } else {
         onFailure(resp.body);
       }
+    } on http.ClientException {
+      onFailure("Internet not Connected!");
     } catch (e) {
       onFailure(e.toString());
     }
